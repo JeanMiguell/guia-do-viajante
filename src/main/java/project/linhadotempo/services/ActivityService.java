@@ -7,12 +7,20 @@ import project.linhadotempo.dtos.ActivityProgressDTO;
 import project.linhadotempo.dtos.AnswerResponseDTO;
 import project.linhadotempo.dtos.questions.ActivityDTO;
 import project.linhadotempo.dtos.questions.ActivityResultResponseDTO;
+import project.linhadotempo.dtos.questions.AlternativeDTO;
 import project.linhadotempo.dtos.questions.AnswerRequestDTO;
 import project.linhadotempo.dtos.questions.QuestionDTO;
-import project.linhadotempo.models.*;
+import project.linhadotempo.models.Activity;
+import project.linhadotempo.models.Answer;
+import project.linhadotempo.models.Question;
+import project.linhadotempo.models.Unit;
+import project.linhadotempo.models.User;
+import project.linhadotempo.models.UserAnswer;
 import project.linhadotempo.utils.CurrentUserProvider;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +41,14 @@ public class ActivityService {
         Activity activity = activityQueryService.findById(activityId);
 
         List<QuestionDTO> questions = questionService.findQuestionDTOsByActivity(activityId);
+
+        questions.forEach(question -> {
+            if (question.getAlternatives() != null) {
+                List<AlternativeDTO> shuffled = new ArrayList<>(question.getAlternatives());
+                Collections.shuffle(shuffled);
+                question.setAlternatives(shuffled);
+            }
+        });
 
         return new ActivityDTO(
                 activity.getId(),

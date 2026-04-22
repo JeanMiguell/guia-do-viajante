@@ -23,9 +23,10 @@ SELECT
     target_unit.id,
     NULL,
     'FIXATION',
-    'Exercícios de Fixação - Chegada dos Portugueses',
+    'Exercícios de Fixação - As Grandes Navegações',
     NULL
 FROM target_unit;
+
 
 WITH target_activity AS (
     SELECT a.id
@@ -56,10 +57,11 @@ SELECT
 FROM target_activity,
      (
          VALUES
-             ('Em que ano os portugueses chegaram ao Brasil?'),
-             ('Quem comandava a expedição que chegou ao Brasil?'),
-             ('Qual documento registrou o primeiro contato com o território brasileiro?')
+             ('Por que os europeus buscavam novas rotas marítimas no século XV?'),
+             ('O que fez Portugal se destacar nas Grandes Navegações?'),
+             ('Qual foi uma consequência importante da Expansão Marítima?')
      ) AS data(statement);
+
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -71,7 +73,6 @@ WITH questions_cte AS (
       AND u.title = 'As Grandes Navegações'
       AND a.type = 'FIXATION'
 )
-
 INSERT INTO answers (
     id,
     created_date_at,
@@ -90,19 +91,17 @@ SELECT
 FROM questions_cte q
          JOIN LATERAL (
     VALUES
+        ('Por que os europeus buscavam novas rotas marítimas no século XV?', 'Para obter especiarias diretamente e reduzir custos', TRUE),
+        ('Por que os europeus buscavam novas rotas marítimas no século XV?', 'Para fugir de guerras internas', FALSE),
+        ('Por que os europeus buscavam novas rotas marítimas no século XV?', 'Para explorar o Ártico', FALSE),
 
-        ('Em que ano os portugueses chegaram ao Brasil?', '1492', FALSE),
-        ('Em que ano os portugueses chegaram ao Brasil?', '1500', TRUE),
-        ('Em que ano os portugueses chegaram ao Brasil?', '1822', FALSE),
+        ('O que fez Portugal se destacar nas Grandes Navegações?', 'Investimento em navegação e tecnologia marítima', TRUE),
+        ('O que fez Portugal se destacar nas Grandes Navegações?', 'Maior população da Europa', FALSE),
+        ('O que fez Portugal se destacar nas Grandes Navegações?', 'Localização no interior', FALSE),
 
-        ('Quem comandava a expedição que chegou ao Brasil?', 'Dom Pedro I', FALSE),
-        ('Quem comandava a expedição que chegou ao Brasil?', 'Pedro Álvares Cabral', TRUE),
-        ('Quem comandava a expedição que chegou ao Brasil?', 'Tiradentes', FALSE),
-
-        ('Qual documento registrou o primeiro contato com o território brasileiro?', 'Carta de Pero Vaz de Caminha', TRUE),
-        ('Qual documento registrou o primeiro contato com o território brasileiro?', 'Tratado de Tordesilhas', FALSE),
-        ('Qual documento registrou o primeiro contato com o território brasileiro?', 'Lei Áurea', FALSE)
-
+        ('Qual foi uma consequência importante da Expansão Marítima?', 'Ampliação do contato entre continentes', TRUE),
+        ('Qual foi uma consequência importante da Expansão Marítima?', 'Fim do comércio europeu', FALSE),
+        ('Qual foi uma consequência importante da Expansão Marítima?', 'Redução das viagens marítimas', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
 
@@ -131,9 +130,10 @@ SELECT
     target_unit.id,
     NULL,
     'FIXATION',
-    'Exercícios de Fixação - Como aconteceu',
+    'Exercícios de Fixação - A Jornada até o Brasil',
     NULL
 FROM target_unit;
+
 
 WITH target_activity AS (
     SELECT a.id
@@ -164,10 +164,11 @@ SELECT
 FROM target_activity,
      (
          VALUES
-             ('Qual era o principal objetivo da viagem de Cabral?'),
-             ('Qual estratégia de navegação ajudou os portugueses a chegar ao Brasil?'),
-             ('Qual instrumento era utilizado para orientação no mar?')
+             ('Qual era o verdadeiro objetivo da viagem de Cabral?'),
+             ('Por que os portugueses usaram a "volta do mar"?'),
+             ('Qual fator permitiu a navegação em longas distâncias?')
      ) AS data(statement);
+
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -197,19 +198,17 @@ SELECT
 FROM questions_cte q
          JOIN LATERAL (
     VALUES
+        ('Qual era o verdadeiro objetivo da viagem de Cabral?', 'Chegar às Índias para comércio', TRUE),
+        ('Qual era o verdadeiro objetivo da viagem de Cabral?', 'Descobrir o Brasil', FALSE),
+        ('Qual era o verdadeiro objetivo da viagem de Cabral?', 'Colonizar imediatamente', FALSE),
 
-        ('Qual era o principal objetivo da viagem de Cabral?', 'Descobrir o Brasil', FALSE),
-        ('Qual era o principal objetivo da viagem de Cabral?', 'Chegar às Índias para comércio', TRUE),
-        ('Qual era o principal objetivo da viagem de Cabral?', 'Conquistar a África', FALSE),
+        ('Por que os portugueses usaram a "volta do mar"?', 'Para aproveitar ventos e correntes', TRUE),
+        ('Por que os portugueses usaram a "volta do mar"?', 'Para evitar contato com outros países', FALSE),
+        ('Por que os portugueses usaram a "volta do mar"?', 'Para encurtar caminho direto', FALSE),
 
-        ('Qual estratégia de navegação ajudou os portugueses a chegar ao Brasil?', 'Navegação costeira', FALSE),
-        ('Qual estratégia de navegação ajudou os portugueses a chegar ao Brasil?', 'Volta do mar', TRUE),
-        ('Qual estratégia de navegação ajudou os portugueses a chegar ao Brasil?', 'Travessia direta', FALSE),
-
-        ('Qual instrumento era utilizado para orientação no mar?', 'Relógio', FALSE),
-        ('Qual instrumento era utilizado para orientação no mar?', 'Bússola', TRUE),
-        ('Qual instrumento era utilizado para orientação no mar?', 'Termômetro', FALSE)
-
+        ('Qual fator permitiu a navegação em longas distâncias?', 'Uso de instrumentos como bússola', TRUE),
+        ('Qual fator permitiu a navegação em longas distâncias?', 'Uso de motores a vapor', FALSE),
+        ('Qual fator permitiu a navegação em longas distâncias?', 'Uso de mapas modernos', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
 
@@ -238,9 +237,10 @@ SELECT
     target_unit.id,
     NULL,
     'FIXATION',
-    'Exercícios de Fixação - Causas e Consequências',
+    'Exercícios de Fixação - Impactos da Chegada',
     NULL
 FROM target_unit;
+
 
 WITH target_activity AS (
     SELECT a.id
@@ -271,10 +271,11 @@ SELECT
 FROM target_activity,
      (
          VALUES
-             ('Qual foi uma das principais causas das grandes navegações?'),
-             ('Além da economia, qual outro fator incentivou as navegações?'),
-             ('Qual foi uma consequência da chegada dos portugueses para os povos indígenas?')
+             ('Além da economia, qual outro objetivo motivava as navegações?'),
+             ('Qual foi um impacto para os povos indígenas?'),
+             ('Por que a chegada dos portugueses marcou o início da colonização?')
      ) AS data(statement);
+
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -304,18 +305,16 @@ SELECT
 FROM questions_cte q
          JOIN LATERAL (
     VALUES
+        ('Além da economia, qual outro objetivo motivava as navegações?', 'Expansão religiosa', TRUE),
+        ('Além da economia, qual outro objetivo motivava as navegações?', 'Clima europeu', FALSE),
+        ('Além da economia, qual outro objetivo motivava as navegações?', 'Lazer', FALSE),
 
-        ('Qual foi uma das principais causas das grandes navegações?', 'Busca por especiarias', TRUE),
-        ('Qual foi uma das principais causas das grandes navegações?', 'Construção de cidades', FALSE),
-        ('Qual foi uma das principais causas das grandes navegações?', 'Criação de universidades', FALSE),
+        ('Qual foi um impacto para os povos indígenas?', 'Perda de terras e conflitos', TRUE),
+        ('Qual foi um impacto para os povos indígenas?', 'Maior autonomia', FALSE),
+        ('Qual foi um impacto para os povos indígenas?', 'Isolamento total', FALSE),
 
-        ('Além da economia, qual outro fator incentivou as navegações?', 'Expansão religiosa', TRUE),
-        ('Além da economia, qual outro fator incentivou as navegações?', 'Clima europeu', FALSE),
-        ('Além da economia, qual outro fator incentivou as navegações?', 'Crescimento populacional', FALSE),
-
-        ('Qual foi uma consequência da chegada dos portugueses para os povos indígenas?', 'Maior autonomia', FALSE),
-        ('Qual foi uma consequência da chegada dos portugueses para os povos indígenas?', 'Perda de terras e conflitos', TRUE),
-        ('Qual foi uma consequência da chegada dos portugueses para os povos indígenas?', 'Isolamento total', FALSE)
-
+        ('Por que a chegada dos portugueses marcou o início da colonização?', 'Início da ocupação e exploração do território', TRUE),
+        ('Por que a chegada dos portugueses marcou o início da colonização?', 'Fim das navegações', FALSE),
+        ('Por que a chegada dos portugueses marcou o início da colonização?', 'Isolamento do Brasil', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
