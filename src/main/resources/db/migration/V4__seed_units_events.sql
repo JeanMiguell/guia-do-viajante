@@ -1,0 +1,128 @@
+INSERT INTO units (id, created_date_at, updated_date_at, history_event_id, title, description, order_index)
+VALUES
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Chegada dos Portugueses'),
+ 'As Grandes Navegações',
+ 'Identificar o evento da chegada dos portugueses e compreender o primeiro contato com o território brasileiro.',
+ 1),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Chegada dos Portugueses'),
+ 'A Jornada até o Brasil',
+ 'Compreender os motivos das navegações portuguesas e o contexto histórico da chegada ao Brasil.',
+ 2),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Chegada dos Portugueses'),
+ 'Impactos da Chegada',
+ 'Analisar os impactos da chegada dos portugueses e o início da exploração do território.',
+ 3),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Capitanias Hereditárias'),
+ 'Organizando o Território',
+ 'Identificar o sistema de capitanias hereditárias e compreender a organização inicial do território.',
+ 1),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Capitanias Hereditárias'),
+ 'Como Funcionavam as Capitanias',
+ 'Compreender os motivos da criação das capitanias hereditárias e seu funcionamento.',
+ 2),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Capitanias Hereditárias'),
+ 'Resultados do Sistema',
+ 'Analisar as causas e consequências do sistema de capitanias hereditárias.',
+ 3),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Invasões Holandesas'),
+ 'Disputa pelo Brasil',
+ 'Identificar as invasões holandesas e compreender o controle sobre partes do território brasileiro.',
+ 1),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Invasões Holandesas'),
+ 'Os Holandeses no Nordeste',
+ 'Compreender os motivos econômicos e políticos das invasões holandesas.',
+ 2),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Invasões Holandesas'),
+ 'Consequências das Invasões',
+ 'Analisar as causas das invasões e suas consequências para o Brasil.',
+ 3),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Chegada da Família Real'),
+ 'A Corte no Brasil',
+ 'Identificar a chegada da família real e a mudança do centro político para o Brasil.',
+ 1),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Chegada da Família Real'),
+ 'Por que a Corte Veio?',
+ 'Compreender os motivos da transferência da corte portuguesa.',
+ 2),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Chegada da Família Real'),
+ 'Transformações no Brasil',
+ 'Analisar os impactos da chegada da família real no Brasil.',
+ 3),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Independência do Brasil'),
+ 'Caminho para a Independência',
+ 'Identificar o processo de independência e a ruptura com Portugal.',
+ 1),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Independência do Brasil'),
+ 'Os Conflitos e Decisões',
+ 'Compreender os fatores políticos e sociais que levaram à independência.',
+ 2),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Independência do Brasil'),
+ 'O Brasil Independente',
+ 'Analisar as causas e consequências da independência do Brasil.',
+ 3),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Abolição da Escravidão'),
+ 'A Luta pela Liberdade',
+ 'Identificar o fim da escravidão e a libertação oficial das pessoas escravizadas.',
+ 1),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Abolição da Escravidão'),
+ 'Pressões pela Abolição',
+ 'Compreender os fatores sociais e políticos que levaram à abolição.',
+ 2),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Abolição da Escravidão'),
+ 'Depois da Abolição',
+ 'Analisar os impactos sociais e econômicos da abolição.',
+ 3),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Proclamação da República'),
+ 'Fim da Monarquia',
+ 'Identificar a Proclamação da República e a mudança do regime político.',
+ 1),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Proclamação da República'),
+ 'O Movimento Republicano',
+ 'Compreender os fatores que levaram ao fim da monarquia.',
+ 2),
+
+(gen_random_uuid(), NOW(), NOW(),
+ (SELECT id FROM history_events WHERE name = 'Proclamação da República'),
+ 'O Novo Regime',
+ 'Analisar as causas e consequências da mudança para a República.',
+ 3);
