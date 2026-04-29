@@ -28,14 +28,14 @@ WITH target_activity AS (
     LIMIT 1
     )
 INSERT INTO questions (id, created_date_at, updated_date_at, activity_id, statement, type)
-SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, data.type
+SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, 'MULTIPLE_CHOICE'
 FROM target_activity,
      (
          VALUES
-             ('Qual foi um fator que contribuiu para a queda da monarquia no Brasil?', 'MULTIPLE_CHOICE'),
-             ('A monarquia mantinha apoio total de todos os grupos sociais.', 'TRUE_FALSE'),
-             ('Relacione os grupos sociais às suas insatisfações.', 'ASSOCIATION')
-     ) AS data(statement, type);
+             ('Qual foi um fator que contribuiu para a queda da monarquia no Brasil?'),
+             ('Qual grupo social estava insatisfeito com a monarquia?'),
+             ('Qual evento contribuiu para o desgaste da monarquia?')
+     ) AS data(statement);
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -45,7 +45,6 @@ WITH questions_cte AS (
              JOIN history_events he ON he.id = u.history_event_id
     WHERE he.name = 'Proclamação da República'
       AND u.title = 'Fim da Monarquia'
-      AND a.type = 'FIXATION'
 )
 INSERT INTO answers (id, created_date_at, updated_date_at, question_id, text, is_correct)
 SELECT gen_random_uuid(), NOW(), NOW(), q.id, data.text, data.is_correct
@@ -56,12 +55,13 @@ FROM questions_cte q
         ('Qual foi um fator que contribuiu para a queda da monarquia no Brasil?', 'Excesso de apoio popular', FALSE),
         ('Qual foi um fator que contribuiu para a queda da monarquia no Brasil?', 'Fim da agricultura', FALSE),
 
-        ('A monarquia mantinha apoio total de todos os grupos sociais.', 'Verdadeiro', FALSE),
-        ('A monarquia mantinha apoio total de todos os grupos sociais.', 'Falso', TRUE),
+        ('Qual grupo social estava insatisfeito com a monarquia?', 'Militares', TRUE),
+        ('Qual grupo social estava insatisfeito com a monarquia?', 'Todos estavam satisfeitos', FALSE),
+        ('Qual grupo social estava insatisfeito com a monarquia?', 'Apenas estrangeiros', FALSE),
 
-        ('Relacione os grupos sociais às suas insatisfações.', 'Militares -> Insatisfação política', TRUE),
-        ('Relacione os grupos sociais às suas insatisfações.', 'Fazendeiros -> Questão da abolição', TRUE),
-        ('Relacione os grupos sociais às suas insatisfações.', 'População -> Apoio total', FALSE)
+        ('Qual evento contribuiu para o desgaste da monarquia?', 'Abolição da escravidão sem indenização', TRUE),
+        ('Qual evento contribuiu para o desgaste da monarquia?', 'Descobrimento do Brasil', FALSE),
+        ('Qual evento contribuiu para o desgaste da monarquia?', 'Fim da internet', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
 
@@ -95,14 +95,14 @@ WITH target_activity AS (
     LIMIT 1
     )
 INSERT INTO questions (id, created_date_at, updated_date_at, activity_id, statement, type)
-SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, data.type
+SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, 'MULTIPLE_CHOICE'
 FROM target_activity,
      (
          VALUES
-             ('Quem liderou a Proclamação da República?', 'MULTIPLE_CHOICE'),
-             ('Os militares tiveram papel importante na Proclamação da República.', 'TRUE_FALSE'),
-             ('Ordene os acontecimentos da Proclamação.', 'ORDER')
-     ) AS data(statement, type);
+             ('Quem liderou a Proclamação da República?'),
+             ('Qual grupo teve papel importante no movimento republicano?'),
+             ('O que motivou o movimento republicano?')
+     ) AS data(statement);
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -112,7 +112,6 @@ WITH questions_cte AS (
              JOIN history_events he ON he.id = u.history_event_id
     WHERE he.name = 'Proclamação da República'
       AND u.title = 'O Movimento Republicano'
-      AND a.type = 'FIXATION'
 )
 INSERT INTO answers (id, created_date_at, updated_date_at, question_id, text, is_correct)
 SELECT gen_random_uuid(), NOW(), NOW(), q.id, data.text, data.is_correct
@@ -123,11 +122,13 @@ FROM questions_cte q
         ('Quem liderou a Proclamação da República?', 'Dom Pedro II', FALSE),
         ('Quem liderou a Proclamação da República?', 'Tiradentes', FALSE),
 
-        ('Os militares tiveram papel importante na Proclamação da República.', 'Verdadeiro', TRUE),
-        ('Os militares tiveram papel importante na Proclamação da República.', 'Falso', FALSE),
+        ('Qual grupo teve papel importante no movimento republicano?', 'Militares', TRUE),
+        ('Qual grupo teve papel importante no movimento republicano?', 'Apenas camponeses', FALSE),
+        ('Qual grupo teve papel importante no movimento republicano?', 'Nenhum grupo', FALSE),
 
-        ('Ordene os acontecimentos da Proclamação.', 'Insatisfação -> Movimento militar -> Proclamação', TRUE),
-        ('Ordene os acontecimentos da Proclamação.', 'Proclamação -> Movimento -> Insatisfação', FALSE)
+        ('O que motivou o movimento republicano?', 'Insatisfação com a monarquia', TRUE),
+        ('O que motivou o movimento republicano?', 'Total apoio ao imperador', FALSE),
+        ('O que motivou o movimento republicano?', 'Fim do comércio', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
 
@@ -161,14 +162,14 @@ WITH target_activity AS (
     LIMIT 1
     )
 INSERT INTO questions (id, created_date_at, updated_date_at, activity_id, statement, type)
-SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, data.type
+SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, 'MULTIPLE_CHOICE'
 FROM target_activity,
      (
          VALUES
-             ('Qual característica marcou o início da República no Brasil?', 'MULTIPLE_CHOICE'),
-             ('A República ampliou imediatamente a participação política.', 'TRUE_FALSE'),
-             ('Relacione características da República com seus efeitos.', 'ASSOCIATION')
-     ) AS data(statement, type);
+             ('Qual característica marcou o início da República no Brasil?'),
+             ('A participação política aumentou imediatamente após a República?'),
+             ('Qual mudança ocorreu com o novo regime?')
+     ) AS data(statement);
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -178,7 +179,6 @@ WITH questions_cte AS (
              JOIN history_events he ON he.id = u.history_event_id
     WHERE he.name = 'Proclamação da República'
       AND u.title = 'O Novo Regime'
-      AND a.type = 'FIXATION'
 )
 INSERT INTO answers (id, created_date_at, updated_date_at, question_id, text, is_correct)
 SELECT gen_random_uuid(), NOW(), NOW(), q.id, data.text, data.is_correct
@@ -189,11 +189,12 @@ FROM questions_cte q
         ('Qual característica marcou o início da República no Brasil?', 'Fim das leis', FALSE),
         ('Qual característica marcou o início da República no Brasil?', 'Fim da política', FALSE),
 
-        ('A República ampliou imediatamente a participação política.', 'Verdadeiro', FALSE),
-        ('A República ampliou imediatamente a participação política.', 'Falso', TRUE),
+        ('A participação política aumentou imediatamente após a República?', 'Não, foi limitada', TRUE),
+        ('A participação política aumentou imediatamente após a República?', 'Sim, totalmente', FALSE),
+        ('A participação política aumentou imediatamente após a República?', 'Nunca existiu política', FALSE),
 
-        ('Relacione características da República com seus efeitos.', 'República -> Novo sistema político', TRUE),
-        ('Relacione características da República com seus efeitos.', 'Constituição -> Organização do Estado', TRUE),
-        ('Relacione características da República com seus efeitos.', 'República -> Igualdade imediata', FALSE)
+        ('Qual mudança ocorreu com o novo regime?', 'Mudança para sistema republicano', TRUE),
+        ('Qual mudança ocorreu com o novo regime?', 'Retorno da monarquia', FALSE),
+        ('Qual mudança ocorreu com o novo regime?', 'Fim do governo', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;

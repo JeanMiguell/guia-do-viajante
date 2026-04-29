@@ -13,4 +13,5 @@ public interface HistoryEventProjection {
     String getPeriodDescription();
     String getEventType();
     String getIntroText();
+    String getImageUrl();
 }

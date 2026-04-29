@@ -3,7 +3,6 @@ package project.linhadotempo.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import project.linhadotempo.models.Unit;
-import project.linhadotempo.models.UserUnitProgress;
 import project.linhadotempo.projections.UnitProjection;
 
 import java.util.List;

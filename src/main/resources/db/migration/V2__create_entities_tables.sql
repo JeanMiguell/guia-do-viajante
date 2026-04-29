@@ -8,6 +8,7 @@ CREATE TABLE history_events (
     end_year DATE,
     period_description VARCHAR(255),
     event_type VARCHAR(50),
+    image_url VARCHAR(500),
     intro_text TEXT
 );
 

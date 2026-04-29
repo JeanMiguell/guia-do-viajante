@@ -29,4 +29,6 @@ public class HistoryEventDTO {
     private String introText;
 
     private Boolean unlocked;
+
+    private String imageUrl;
 }

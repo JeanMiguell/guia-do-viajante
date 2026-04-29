@@ -1,6 +1,9 @@
 package project.linhadotempo.dtos.questions;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,4 +19,5 @@ public class QuestionDTO {
     private String questionType;
 
     private List<AlternativeDTO> alternatives;
+    private List<AssociationItemDTO> associations;
 }

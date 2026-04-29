@@ -3,6 +3,7 @@ package project.linhadotempo.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.linhadotempo.dtos.HistoryEventDTO;
+import project.linhadotempo.dtos.TimelineDTO;
 import project.linhadotempo.mappers.HistoryEventMapper;
 import project.linhadotempo.models.User;
 import project.linhadotempo.projections.HistoryEventProjection;
@@ -21,16 +22,23 @@ public class HistoryEventService {
     private final UserUnitProgressService userUnitProgressService;
     private final CurrentUserProvider currentUserProvider;
 
-    public List<HistoryEventDTO> getAllEvents() {
+    public List<HistoryEventProjection> findAllOrdered() {
+        return historyEventRepository.findAllByOrderByStartYearAsc();
+    }
+
+    public TimelineDTO getAllEvents() {
 
         User user = currentUserProvider.getAuthenticatedUser();
 
         List<HistoryEventProjection> projections =
                 historyEventRepository.findAllByOrderByStartYearAsc();
 
-        List<HistoryEventDTO> result = new ArrayList<>();
+        List<HistoryEventDTO> events = new ArrayList<>();
 
         boolean previousCompleted = true;
+
+        int unlockedCount = 0;
+        int completedCount = 0;
 
         for (HistoryEventProjection projection : projections) {
 
@@ -41,15 +49,33 @@ public class HistoryEventService {
             boolean completed = userUnitProgressService
                     .isEventCompleted(user.getId(), projection.getId());
 
-            if (!completed) {
+            if (unlocked) {
+                unlockedCount++;
+            }
+
+            if (completed) {
+                completedCount++;
+            } else {
                 previousCompleted = false;
             }
 
             dto.setUnlocked(unlocked);
 
-            result.add(dto);
+            events.add(dto);
         }
 
-        return result;
+        int total = projections.size();
+
+        double percentage = total == 0
+                ? 0
+                : (completedCount * 100.0) / total;
+
+        return new TimelineDTO(
+                events,
+                total,
+                unlockedCount,
+                completedCount,
+                percentage
+        );
     }
 }

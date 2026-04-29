@@ -18,27 +18,28 @@ public class UserAnswerService {
 
     private final UserAnswerRepository repository;
 
+    public int countCorrectByUnit(UUID userId, UUID unitId) {
+        return repository.countCorrectByUserAndUnit(userId, unitId);
+    }
+
     public void saveAnswer(User user, Question question, Answer answer, boolean isCorrect) {
 
         Optional<UserAnswer> existing =
                 repository.findByUserIdAndQuestionId(user.getId(), question.getId());
 
+        UserAnswer entity;
         if (existing.isPresent()) {
-            UserAnswer entity = existing.get();
-            entity.setAnswer(answer);
-            entity.setIsCorrect(isCorrect);
-
-            repository.save(entity);
+            entity = existing.get();
 
         } else {
-            UserAnswer entity = new UserAnswer();
+            entity = new UserAnswer();
             entity.setUser(user);
             entity.setQuestion(question);
-            entity.setAnswer(answer);
-            entity.setIsCorrect(isCorrect);
 
-            repository.save(entity);
         }
+        entity.setAnswer(answer);
+        entity.setIsCorrect(isCorrect);
+        repository.save(entity);
     }
 
     public List<UserAnswer> findByUserAndActivity(UUID userId, UUID activityId) {
