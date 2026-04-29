@@ -28,14 +28,14 @@ WITH target_activity AS (
     LIMIT 1
     )
 INSERT INTO questions (id, created_date_at, updated_date_at, activity_id, statement, type)
-SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, data.type
+SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, 'MULTIPLE_CHOICE'
 FROM target_activity,
      (
          VALUES
-             ('Qual era a base da economia brasileira durante o período escravista?', 'MULTIPLE_CHOICE'),
-             ('Pessoas escravizadas não resistiam ao sistema.', 'TRUE_FALSE'),
-             ('Relacione as formas de resistência com seus exemplos.', 'ASSOCIATION')
-     ) AS data(statement, type);
+             ('Qual era a base da economia brasileira durante o período escravista?'),
+             ('Como as pessoas escravizadas reagiam ao sistema?'),
+             ('Qual foi uma forma de resistência à escravidão?')
+     ) AS data(statement);
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -45,7 +45,6 @@ WITH questions_cte AS (
              JOIN history_events he ON he.id = u.history_event_id
     WHERE he.name = 'Abolição da Escravidão'
       AND u.title = 'A Luta pela Liberdade'
-      AND a.type = 'FIXATION'
 )
 INSERT INTO answers (id, created_date_at, updated_date_at, question_id, text, is_correct)
 SELECT gen_random_uuid(), NOW(), NOW(), q.id, data.text, data.is_correct
@@ -56,12 +55,13 @@ FROM questions_cte q
         ('Qual era a base da economia brasileira durante o período escravista?', 'Trabalho industrial', FALSE),
         ('Qual era a base da economia brasileira durante o período escravista?', 'Tecnologia avançada', FALSE),
 
-        ('Pessoas escravizadas não resistiam ao sistema.', 'Verdadeiro', FALSE),
-        ('Pessoas escravizadas não resistiam ao sistema.', 'Falso', TRUE),
+        ('Como as pessoas escravizadas reagiam ao sistema?', 'Resistiam de diversas formas', TRUE),
+        ('Como as pessoas escravizadas reagiam ao sistema?', 'Aceitavam totalmente o sistema', FALSE),
+        ('Como as pessoas escravizadas reagiam ao sistema?', 'Não tinham nenhuma reação', FALSE),
 
-        ('Relacione as formas de resistência com seus exemplos.', 'Fuga -> Quilombos', TRUE),
-        ('Relacione as formas de resistência com seus exemplos.', 'Cultura -> Preservação de tradições', TRUE),
-        ('Relacione as formas de resistência com seus exemplos.', 'Resistência -> Aceitação total', FALSE)
+        ('Qual foi uma forma de resistência à escravidão?', 'Formação de quilombos', TRUE),
+        ('Qual foi uma forma de resistência à escravidão?', 'Apoio ao sistema escravista', FALSE),
+        ('Qual foi uma forma de resistência à escravidão?', 'Fim do comércio', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
 
@@ -95,14 +95,14 @@ WITH target_activity AS (
     LIMIT 1
     )
 INSERT INTO questions (id, created_date_at, updated_date_at, activity_id, statement, type)
-SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, data.type
+SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, 'MULTIPLE_CHOICE'
 FROM target_activity,
      (
          VALUES
-             ('Qual país pressionava o Brasil pelo fim da escravidão?', 'MULTIPLE_CHOICE'),
-             ('Movimentos internos também pressionaram pela abolição.', 'TRUE_FALSE'),
-             ('Ordene o processo de abolição.', 'ORDER')
-     ) AS data(statement, type);
+             ('Qual país pressionava o Brasil pelo fim da escravidão?'),
+             ('Quem também pressionava internamente pela abolição?'),
+             ('Qual foi o resultado dessas pressões?')
+     ) AS data(statement);
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -112,7 +112,6 @@ WITH questions_cte AS (
              JOIN history_events he ON he.id = u.history_event_id
     WHERE he.name = 'Abolição da Escravidão'
       AND u.title = 'Pressões pela Abolição'
-      AND a.type = 'FIXATION'
 )
 INSERT INTO answers (id, created_date_at, updated_date_at, question_id, text, is_correct)
 SELECT gen_random_uuid(), NOW(), NOW(), q.id, data.text, data.is_correct
@@ -123,11 +122,13 @@ FROM questions_cte q
         ('Qual país pressionava o Brasil pelo fim da escravidão?', 'França', FALSE),
         ('Qual país pressionava o Brasil pelo fim da escravidão?', 'Espanha', FALSE),
 
-        ('Movimentos internos também pressionaram pela abolição.', 'Verdadeiro', TRUE),
-        ('Movimentos internos também pressionaram pela abolição.', 'Falso', FALSE),
+        ('Quem também pressionava internamente pela abolição?', 'Movimentos abolicionistas', TRUE),
+        ('Quem também pressionava internamente pela abolição?', 'Apenas o governo', FALSE),
+        ('Quem também pressionava internamente pela abolição?', 'Somente países estrangeiros', FALSE),
 
-        ('Ordene o processo de abolição.', 'Leis graduais -> Pressões -> Lei Áurea', TRUE),
-        ('Ordene o processo de abolição.', 'Lei Áurea -> Pressões -> Leis', FALSE)
+        ('Qual foi o resultado dessas pressões?', 'A assinatura da Lei Áurea', TRUE),
+        ('Qual foi o resultado dessas pressões?', 'O aumento da escravidão', FALSE),
+        ('Qual foi o resultado dessas pressões?', 'Fim da economia', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
 
@@ -161,14 +162,14 @@ WITH target_activity AS (
     LIMIT 1
     )
 INSERT INTO questions (id, created_date_at, updated_date_at, activity_id, statement, type)
-SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, data.type
+SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, 'MULTIPLE_CHOICE'
 FROM target_activity,
      (
          VALUES
-             ('O que aconteceu com os ex-escravizados após a abolição?', 'MULTIPLE_CHOICE'),
-             ('A abolição resolveu imediatamente as desigualdades sociais.', 'TRUE_FALSE'),
-             ('Relacione consequências da abolição com seus impactos.', 'ASSOCIATION')
-     ) AS data(statement, type);
+             ('O que aconteceu com os ex-escravizados após a abolição?'),
+             ('A abolição resolveu as desigualdades sociais?'),
+             ('Qual foi um impacto da abolição na sociedade?')
+     ) AS data(statement);
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -178,7 +179,6 @@ WITH questions_cte AS (
              JOIN history_events he ON he.id = u.history_event_id
     WHERE he.name = 'Abolição da Escravidão'
       AND u.title = 'Depois da Abolição'
-      AND a.type = 'FIXATION'
 )
 INSERT INTO answers (id, created_date_at, updated_date_at, question_id, text, is_correct)
 SELECT gen_random_uuid(), NOW(), NOW(), q.id, data.text, data.is_correct
@@ -189,11 +189,12 @@ FROM questions_cte q
         ('O que aconteceu com os ex-escravizados após a abolição?', 'Receberam terras e recursos', FALSE),
         ('O que aconteceu com os ex-escravizados após a abolição?', 'Foram enviados para outro país', FALSE),
 
-        ('A abolição resolveu imediatamente as desigualdades sociais.', 'Verdadeiro', FALSE),
-        ('A abolição resolveu imediatamente as desigualdades sociais.', 'Falso', TRUE),
+        ('A abolição resolveu as desigualdades sociais?', 'Não, continuaram existindo', TRUE),
+        ('A abolição resolveu as desigualdades sociais?', 'Sim, foram eliminadas imediatamente', FALSE),
+        ('A abolição resolveu as desigualdades sociais?', 'Nunca existiram desigualdades', FALSE),
 
-        ('Relacione consequências da abolição com seus impactos.', 'Liberdade -> Falta de suporte', TRUE),
-        ('Relacione consequências da abolição com seus impactos.', 'Fim da escravidão -> Mudanças sociais lentas', TRUE),
-        ('Relacione consequências da abolição com seus impactos.', 'Abolição -> Igualdade imediata', FALSE)
+        ('Qual foi um impacto da abolição na sociedade?', 'Mudanças sociais lentas', TRUE),
+        ('Qual foi um impacto da abolição na sociedade?', 'Igualdade imediata', FALSE),
+        ('Qual foi um impacto da abolição na sociedade?', 'Fim das cidades', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;

@@ -42,4 +42,7 @@ public class HistoryEvent extends BaseEntity implements Serializable {
     @Column(name = "intro_text", columnDefinition = "TEXT")
     private String introText;
 
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
 }

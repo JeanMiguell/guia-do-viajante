@@ -8,7 +8,8 @@ INSERT INTO history_events (
     end_year,
     period_description,
     event_type,
-    intro_text
+    intro_text,
+    image_url
 )
 VALUES
 
@@ -22,7 +23,8 @@ VALUES
     '1500-12-31',
     'Brasil Pré-Colonial',
     'Marco Inicial',
-    'Marca o início do contato entre portugueses e povos indígenas no território brasileiro.'
+    'Marca o início do contato entre portugueses e povos indígenas no território brasileiro.',
+    'https://res.cloudinary.com/dwirkp1qv/image/upload/q_auto/f_auto/v1777406898/ChatGPT_Image_28_de_abr._de_2026_16_05_09_1_manw6i.png'
 ),
 
 (
@@ -35,7 +37,8 @@ VALUES
     '1549-12-31',
     'Brasil Colonial',
     'Administração',
-    'Sistema criado por Portugal para organizar a ocupação do território.'
+    'Sistema criado por Portugal para organizar a ocupação do território.',
+    'https://res.cloudinary.com/dwirkp1qv/image/upload/q_auto/f_auto/v1777409358/ChatGPT_Image_28_de_abr._de_2026_16_46_59-Photoroom_owkkqi.png'
 ),
 
 (
@@ -48,7 +51,8 @@ VALUES
     '1654-12-31',
     'Brasil Colonial',
     'Conflito',
-    'Período de disputas pelo controle econômico e territorial no Brasil.'
+    'Período de disputas pelo controle econômico e territorial no Brasil.',
+    'https://res.cloudinary.com/dwirkp1qv/image/upload/q_auto/f_auto/v1777411065/ChatGPT_Image_28_de_abr._de_2026_17_13_02-Photoroom_udokd5.png'
 ),
 
 (
@@ -61,7 +65,8 @@ VALUES
     '1808-12-31',
     'Período Joanino',
     'Político',
-    'Transformou o Brasil em sede do governo português.'
+    'Transformou o Brasil em sede do governo português.',
+    'https://res.cloudinary.com/dwirkp1qv/image/upload/q_auto/f_auto/v1777411493/ChatGPT_Image_28_de_abr._de_2026_17_23_02-Photoroom_bozgos.png'
 ),
 
 (
@@ -74,7 +79,8 @@ VALUES
     '1822-12-31',
     'Brasil Império',
     'Político',
-    'Marca o fim do período colonial e início do Império.'
+    'Marca o fim do período colonial e início do Império.',
+    'https://res.cloudinary.com/dwirkp1qv/image/upload/q_auto/f_auto/v1777411939/ChatGPT_Image_28_de_abr._de_2026_17_30_54-Photoroom_yy90i1.png'
 ),
 
 (
@@ -87,7 +93,8 @@ VALUES
     '1888-12-31',
     'Brasil Império',
     'Social',
-    'Encerramento de um longo período de escravidão no país.'
+    'Encerramento de um longo período de escravidão no país.',
+    'https://res.cloudinary.com/dwirkp1qv/image/upload/q_auto/f_auto/v1777412154/ChatGPT_Image_28_de_abr._de_2026_17_34_15-Photoroom_d4nwvm.png'
 ),
 
 (
@@ -100,5 +107,6 @@ VALUES
     '1889-12-31',
     'Brasil República',
     'Político',
-    'Mudança do regime político brasileiro.'
+    'Mudança do regime político brasileiro.',
+    'https://res.cloudinary.com/dwirkp1qv/image/upload/q_auto/f_auto/v1777412632/ChatGPT_Image_28_de_abr._de_2026_17_43_35_qeahr0.png'
 );

@@ -25,6 +25,10 @@ public class UnitService {
     private final CurrentUserProvider currentUserProvider;
     private final UserUnitProgressService userUnitProgressService;
 
+    public List<Unit> findByEvent(UUID eventId) {
+        return unitRepository.findByHistoryEventIdOrderByOrderIndexAsc(eventId);
+    }
+
     public List<UnitDTO> getUnitsByEvent(UUID eventId) {
 
         UUID userId = currentUserProvider.getAuthenticatedUser().getId();

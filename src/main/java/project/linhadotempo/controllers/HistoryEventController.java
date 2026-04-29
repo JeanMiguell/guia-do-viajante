@@ -9,10 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import project.linhadotempo.dtos.HistoryEventDTO;
+import project.linhadotempo.dtos.TimelineDTO;
 import project.linhadotempo.services.HistoryEventService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/events")
@@ -24,13 +22,13 @@ public class HistoryEventController {
 
     @Operation(
             summary = "Listar eventos históricos",
-            description = "Retorna todos os eventos históricos ordenados cronologicamente para exibição na linha do tempo"
+            description = "Retorna todos os eventos históricos com progresso geral para exibição na linha do tempo"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Eventos retornados com sucesso")
     })
     @GetMapping
-    public ResponseEntity<List<HistoryEventDTO>> getAllEvents() {
+    public ResponseEntity<TimelineDTO> getAllEvents() {
         return ResponseEntity.ok(historyEventService.getAllEvents());
     }
 }

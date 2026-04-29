@@ -28,14 +28,14 @@ WITH target_activity AS (
     LIMIT 1
     )
 INSERT INTO questions (id, created_date_at, updated_date_at, activity_id, statement, type)
-SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, data.type
+SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, 'MULTIPLE_CHOICE'
 FROM target_activity,
      (
          VALUES
-             ('Por que o Brasil começou a desejar maior autonomia em relação a Portugal?', 'MULTIPLE_CHOICE'),
-             ('A Independência do Brasil foi influenciada por movimentos internacionais.', 'TRUE_FALSE'),
-             ('Relacione os fatores às suas consequências.', 'ASSOCIATION')
-     ) AS data(statement, type);
+             ('Por que o Brasil começou a desejar maior autonomia em relação a Portugal?'),
+             ('Qual fator internacional influenciou a independência do Brasil?'),
+             ('Qual mudança aumentou a autonomia do Brasil antes da independência?')
+     ) AS data(statement);
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -45,7 +45,6 @@ WITH questions_cte AS (
              JOIN history_events he ON he.id = u.history_event_id
     WHERE he.name = 'Independência do Brasil'
       AND u.title = 'Caminho para a Independência'
-      AND a.type = 'FIXATION'
 )
 INSERT INTO answers (id, created_date_at, updated_date_at, question_id, text, is_correct)
 SELECT gen_random_uuid(), NOW(), NOW(), q.id, data.text, data.is_correct
@@ -53,15 +52,16 @@ FROM questions_cte q
          JOIN LATERAL (
     VALUES
         ('Por que o Brasil começou a desejar maior autonomia em relação a Portugal?', 'Porque havia restrições comerciais e controle da metrópole', TRUE),
-        ('Por que o Brasil começou a desejar maior autonomia em relação a Portugal?', 'Porque o Brasil era independente', FALSE),
-        ('Por que o Brasil começou a desejar maior autonomia em relação a Portugal?', 'Porque não havia comércio', FALSE),
+        ('Por que o Brasil começou a desejar maior autonomia em relação a Portugal?', 'Porque o Brasil já era independente', FALSE),
+        ('Por que o Brasil começou a desejar maior autonomia em relação a Portugal?', 'Porque não existia comércio', FALSE),
 
-        ('A Independência do Brasil foi influenciada por movimentos internacionais.', 'Verdadeiro', TRUE),
-        ('A Independência do Brasil foi influenciada por movimentos internacionais.', 'Falso', FALSE),
+        ('Qual fator internacional influenciou a independência do Brasil?', 'Ideias de liberdade vindas de outras revoluções', TRUE),
+        ('Qual fator internacional influenciou a independência do Brasil?', 'A invenção da internet', FALSE),
+        ('Qual fator internacional influenciou a independência do Brasil?', 'A descoberta da América', FALSE),
 
-        ('Relacione os fatores às suas consequências.', 'Abertura dos portos -> Maior autonomia', TRUE),
-        ('Relacione os fatores às suas consequências.', 'Influência externa -> Ideias de liberdade', TRUE),
-        ('Relacione os fatores às suas consequências.', 'Retorno da Corte -> Aumento da autonomia', FALSE)
+        ('Qual mudança aumentou a autonomia do Brasil antes da independência?', 'Abertura dos portos', TRUE),
+        ('Qual mudança aumentou a autonomia do Brasil antes da independência?', 'Fim da agricultura', FALSE),
+        ('Qual mudança aumentou a autonomia do Brasil antes da independência?', 'Fechamento do comércio', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
 
@@ -95,14 +95,14 @@ WITH target_activity AS (
     LIMIT 1
     )
 INSERT INTO questions (id, created_date_at, updated_date_at, activity_id, statement, type)
-SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, data.type
+SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, 'MULTIPLE_CHOICE'
 FROM target_activity,
      (
          VALUES
-             ('O que foi o Dia do Fico?', 'MULTIPLE_CHOICE'),
-             ('Dom Pedro decidiu permanecer no Brasil contra ordens de Portugal.', 'TRUE_FALSE'),
-             ('Ordene os acontecimentos do processo de independência.', 'ORDER')
-     ) AS data(statement, type);
+             ('O que foi o Dia do Fico?'),
+             ('O que Dom Pedro decidiu fazer nesse momento?'),
+             ('Qual foi o marco da independência do Brasil?')
+     ) AS data(statement);
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -112,7 +112,6 @@ WITH questions_cte AS (
              JOIN history_events he ON he.id = u.history_event_id
     WHERE he.name = 'Independência do Brasil'
       AND u.title = 'Os Conflitos e Decisões'
-      AND a.type = 'FIXATION'
 )
 INSERT INTO answers (id, created_date_at, updated_date_at, question_id, text, is_correct)
 SELECT gen_random_uuid(), NOW(), NOW(), q.id, data.text, data.is_correct
@@ -123,11 +122,13 @@ FROM questions_cte q
         ('O que foi o Dia do Fico?', 'Declaração da independência', FALSE),
         ('O que foi o Dia do Fico?', 'Retorno da Corte', FALSE),
 
-        ('Dom Pedro decidiu permanecer no Brasil contra ordens de Portugal.', 'Verdadeiro', TRUE),
-        ('Dom Pedro decidiu permanecer no Brasil contra ordens de Portugal.', 'Falso', FALSE),
+        ('O que Dom Pedro decidiu fazer nesse momento?', 'Ficar no Brasil contra ordens de Portugal', TRUE),
+        ('O que Dom Pedro decidiu fazer nesse momento?', 'Voltar para Portugal imediatamente', FALSE),
+        ('O que Dom Pedro decidiu fazer nesse momento?', 'Abandonar o governo', FALSE),
 
-        ('Ordene os acontecimentos do processo de independência.', 'Pressão de Portugal -> Dia do Fico -> Grito do Ipiranga', TRUE),
-        ('Ordene os acontecimentos do processo de independência.', 'Grito do Ipiranga -> Dia do Fico -> Pressão', FALSE)
+        ('Qual foi o marco da independência do Brasil?', 'Grito do Ipiranga', TRUE),
+        ('Qual foi o marco da independência do Brasil?', 'Descobrimento do Brasil', FALSE),
+        ('Qual foi o marco da independência do Brasil?', 'Chegada da família real', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
 
@@ -161,14 +162,14 @@ WITH target_activity AS (
     LIMIT 1
     )
 INSERT INTO questions (id, created_date_at, updated_date_at, activity_id, statement, type)
-SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, data.type
+SELECT gen_random_uuid(), NOW(), NOW(), target_activity.id, data.statement, 'MULTIPLE_CHOICE'
 FROM target_activity,
      (
          VALUES
-             ('Qual foi o sistema de governo adotado após a independência?', 'MULTIPLE_CHOICE'),
-             ('A independência eliminou imediatamente as desigualdades sociais.', 'TRUE_FALSE'),
-             ('Relacione os aspectos do Brasil independente com suas características.', 'ASSOCIATION')
-     ) AS data(statement, type);
+             ('Qual foi o sistema de governo adotado após a independência?'),
+             ('O que aconteceu com as desigualdades sociais após a independência?'),
+             ('Qual característica marcou o Brasil independente?')
+     ) AS data(statement);
 
 WITH questions_cte AS (
     SELECT q.id, q.statement
@@ -178,7 +179,6 @@ WITH questions_cte AS (
              JOIN history_events he ON he.id = u.history_event_id
     WHERE he.name = 'Independência do Brasil'
       AND u.title = 'O Brasil Independente'
-      AND a.type = 'FIXATION'
 )
 INSERT INTO answers (id, created_date_at, updated_date_at, question_id, text, is_correct)
 SELECT gen_random_uuid(), NOW(), NOW(), q.id, data.text, data.is_correct
@@ -189,11 +189,12 @@ FROM questions_cte q
         ('Qual foi o sistema de governo adotado após a independência?', 'República', FALSE),
         ('Qual foi o sistema de governo adotado após a independência?', 'Ditadura', FALSE),
 
-        ('A independência eliminou imediatamente as desigualdades sociais.', 'Verdadeiro', FALSE),
-        ('A independência eliminou imediatamente as desigualdades sociais.', 'Falso', TRUE),
+        ('O que aconteceu com as desigualdades sociais após a independência?', 'Continuaram existindo', TRUE),
+        ('O que aconteceu com as desigualdades sociais após a independência?', 'Foram eliminadas imediatamente', FALSE),
+        ('O que aconteceu com as desigualdades sociais após a independência?', 'Nunca existiram', FALSE),
 
-        ('Relacione os aspectos do Brasil independente com suas características.', 'Monarquia -> Imperador no poder', TRUE),
-        ('Relacione os aspectos do Brasil independente com suas características.', 'Escravidão -> Continuou após independência', TRUE),
-        ('Relacione os aspectos do Brasil independente com suas características.', 'Independência -> Igualdade social imediata', FALSE)
+        ('Qual característica marcou o Brasil independente?', 'Continuidade da escravidão', TRUE),
+        ('Qual característica marcou o Brasil independente?', 'Igualdade social imediata', FALSE),
+        ('Qual característica marcou o Brasil independente?', 'Fim da agricultura', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
