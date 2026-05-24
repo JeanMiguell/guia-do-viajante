@@ -41,4 +41,7 @@ public class UnitContent extends BaseEntity implements Serializable {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String hint;
+
+    @Column(length = 50, nullable = false)
+    private String layout = "TEXT_LEFT";
 }

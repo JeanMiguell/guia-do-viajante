@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.linhadotempo.dtos.units.EventResultDTO;
 import project.linhadotempo.dtos.units.UnitResultDTO;
+import project.linhadotempo.exceptions.NoContentException;
 import project.linhadotempo.models.Activity;
 import project.linhadotempo.models.ActivityResult;
 import project.linhadotempo.models.Unit;
@@ -16,6 +17,7 @@ import project.linhadotempo.utils.CurrentUserProvider;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,11 +32,24 @@ public class ActivityResultService {
     private final UserAnswerService userAnswerService;
     private final CurrentUserProvider currentUserProvider;
 
-    public List<EventResultDTO> getUserResults() {
+    public List<EventResultDTO> getUserResults(UUID timelineId) {
 
         User user = currentUserProvider.getAuthenticatedUser();
 
-        List<HistoryEventProjection> events = eventService.findAllOrdered();
+        List<HistoryEventProjection> events =
+                eventService.findAllByTimelineIdOrdered(timelineId);
+
+        boolean hasAnyProgress = events.stream().anyMatch(event -> {
+
+            Map<UUID, UserUnitProgress> progressMap =
+                    progressService.getProgressMapByEvent(user.getId(), event.getId());
+
+            return !progressMap.isEmpty();
+        });
+
+        if (!hasAnyProgress) {
+            throw new NoContentException("Você ainda não iniciou nenhuma atividade nesta linha do tempo.");
+        }
 
         return events.stream().map(event -> {
 
@@ -73,10 +88,15 @@ public class ActivityResultService {
             return new EventResultDTO(
                     event.getId(),
                     event.getName(),
+                    event.getImageUrl(),
                     unitResults
             );
 
         }).toList();
+    }
+
+    public Optional<ActivityResult> findByUserAndActivity(UUID userId, UUID activityId) {
+        return repository.findByUserIdAndActivityId(userId, activityId);
     }
 
     public void saveResult(

@@ -1,7 +1,33 @@
+INSERT INTO timelines (
+    id,
+    created_date_at,
+    updated_date_at,
+    name,
+    description,
+    user_id,
+    is_default,
+    image_url,
+    visibility,
+    status
+)
+VALUES (
+           gen_random_uuid(),
+           NOW(),
+           NOW(),
+           'Linha do Tempo do Brasil',
+           'Linha do tempo padrão do sistema com os principais eventos históricos do Brasil.',
+           NULL,
+           TRUE,
+           'https://res.cloudinary.com/dwirkp1qv/image/upload/q_auto/f_auto/v1777749408/ChatGPT_Image_2_de_mai._de_2026_15_16_04_ko8wqi.png',
+           'PUBLIC',
+           'PUBLISHED'
+       );
+
 INSERT INTO history_events (
     id,
     created_date_at,
     updated_date_at,
+    timeline_id,
     name,
     description,
     start_year,
@@ -13,10 +39,11 @@ INSERT INTO history_events (
 )
 VALUES
 
-(
-    gen_random_uuid(),
-    NOW(),
-    NOW(),
+    (
+        gen_random_uuid(),
+        NOW(),
+        NOW(),
+        (SELECT id FROM timelines WHERE is_default = TRUE LIMIT 1),
     'Chegada dos Portugueses',
     'Chegada da expedição portuguesa ao território brasileiro em 1500.',
     '1500-01-01',
@@ -25,12 +52,13 @@ VALUES
     'Marco Inicial',
     'Marca o início do contato entre portugueses e povos indígenas no território brasileiro.',
     'https://res.cloudinary.com/dwirkp1qv/image/upload/q_auto/f_auto/v1777406898/ChatGPT_Image_28_de_abr._de_2026_16_05_09_1_manw6i.png'
-),
+    ),
 
 (
     gen_random_uuid(),
     NOW(),
     NOW(),
+    (SELECT id FROM timelines WHERE is_default = TRUE LIMIT 1),
     'Capitanias Hereditárias',
     'Divisão do território brasileiro em capitanias para facilitar a administração.',
     '1534-01-01',
@@ -45,6 +73,7 @@ VALUES
     gen_random_uuid(),
     NOW(),
     NOW(),
+    (SELECT id FROM timelines WHERE is_default = TRUE LIMIT 1),
     'Invasões Holandesas',
     'Tentativas de ocupação do território brasileiro pelos holandeses.',
     '1630-01-01',
@@ -59,6 +88,7 @@ VALUES
     gen_random_uuid(),
     NOW(),
     NOW(),
+    (SELECT id FROM timelines WHERE is_default = TRUE LIMIT 1),
     'Chegada da Família Real',
     'Transferência da corte portuguesa para o Brasil em 1808.',
     '1808-01-01',
@@ -73,6 +103,7 @@ VALUES
     gen_random_uuid(),
     NOW(),
     NOW(),
+    (SELECT id FROM timelines WHERE is_default = TRUE LIMIT 1),
     'Independência do Brasil',
     'Rompimento político com Portugal em 1822.',
     '1822-01-01',
@@ -87,6 +118,7 @@ VALUES
     gen_random_uuid(),
     NOW(),
     NOW(),
+    (SELECT id FROM timelines WHERE is_default = TRUE LIMIT 1),
     'Abolição da Escravidão',
     'Fim oficial da escravidão no Brasil com a Lei Áurea.',
     '1888-01-01',
@@ -101,6 +133,7 @@ VALUES
     gen_random_uuid(),
     NOW(),
     NOW(),
+    (SELECT id FROM timelines WHERE is_default = TRUE LIMIT 1),
     'Proclamação da República',
     'Fim da monarquia e início da República em 1889.',
     '1889-01-01',

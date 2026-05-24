@@ -4,5 +4,6 @@ public enum QuestionType {
     MULTIPLE_CHOICE,
     TRUE_FALSE,
     ORDER,
-    ASSOCIATION
+    ASSOCIATION,
+    FILL_IN_THE_BLANK
 }

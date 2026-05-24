@@ -17,7 +17,8 @@ public interface UnitContentRepository extends JpaRepository<UnitContent, UUID> 
             uc.content AS content,
             uc.imageUrl AS imageUrl,
             uc.pageOrder AS pageOrder,
-            uc.hint AS hint
+            uc.hint AS hint,
+            uc.layout AS layout
         FROM UnitContent uc
         WHERE uc.unit.id = :unitId
         ORDER BY uc.pageOrder ASC

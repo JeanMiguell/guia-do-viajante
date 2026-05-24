@@ -1,7 +1,27 @@
+CREATE TABLE timelines (
+    id UUID PRIMARY KEY,
+    created_date_at TIMESTAMP,
+    updated_date_at TIMESTAMP,
+
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+
+    user_id UUID NULL,
+    is_default BOOLEAN DEFAULT FALSE,
+    image_url VARCHAR(500),
+    visibility VARCHAR(20) NOT NULL DEFAULT 'PRIVATE',
+    status VARCHAR(20) NOT NULL DEFAULT 'DRAFT',
+    CONSTRAINT fk_timeline_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE history_events (
     id UUID PRIMARY KEY,
     created_date_at TIMESTAMP NOT NULL,
     updated_date_at TIMESTAMP NOT NULL,
+
+    timeline_id UUID NOT NULL,
+
     name VARCHAR(255) NOT NULL,
     description TEXT,
     start_year DATE,
@@ -9,7 +29,12 @@ CREATE TABLE history_events (
     period_description VARCHAR(255),
     event_type VARCHAR(50),
     image_url VARCHAR(500),
-    intro_text TEXT
+    order_index INT,
+    intro_text TEXT,
+
+    CONSTRAINT fk_event_timeline
+        FOREIGN KEY (timeline_id) REFERENCES timelines(id)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE units (
@@ -38,38 +63,6 @@ CREATE TABLE unit_contents (
 
      CONSTRAINT fk_unit_contents_unit
          FOREIGN KEY (unit_id) REFERENCES units(id) ON DELETE CASCADE
-);
-
-CREATE TABLE elements
-(
-    id              UUID PRIMARY KEY,
-    created_date_at TIMESTAMP NOT NULL,
-    updated_date_at TIMESTAMP NOT NULL,
-    unit_content_id UUID      NOT NULL,
-    title           VARCHAR(255),
-    description     TEXT,
-    pos_x           FLOAT,
-    pos_y           FLOAT,
-
-    CONSTRAINT fk_elements_content
-        FOREIGN KEY (unit_content_id)
-            REFERENCES unit_contents (id)
-            ON DELETE CASCADE
-);
-
-CREATE TABLE user_element_interactions (
-    id UUID PRIMARY KEY,
-    created_date_at TIMESTAMP NOT NULL,
-    updated_date_at TIMESTAMP NOT NULL,
-
-    user_id UUID NOT NULL,
-    element_id UUID NOT NULL,
-
-    CONSTRAINT fk_uei_user
-        FOREIGN KEY (user_id) REFERENCES users(id),
-
-    CONSTRAINT fk_uei_element
-        FOREIGN KEY (element_id) REFERENCES elements(id)
 );
 
 CREATE TABLE user_unit_progress (
@@ -176,27 +169,24 @@ CREATE TABLE activity_result (
         FOREIGN KEY (activity_id) REFERENCES activities(id)
 );
 
-CREATE TABLE achievements (
+CREATE TABLE user_timelines (
     id UUID PRIMARY KEY,
     created_date_at TIMESTAMP NOT NULL,
     updated_date_at TIMESTAMP NOT NULL,
-    name VARCHAR(255),
-    description TEXT,
-    goal INT
-);
 
-CREATE TABLE user_achievements (
-    id UUID PRIMARY KEY,
-    created_date_at TIMESTAMP NOT NULL,
-    updated_date_at TIMESTAMP NOT NULL,
     user_id UUID NOT NULL,
-    achievement_id UUID NOT NULL,
-    progress INT,
-    is_completed BOOLEAN,
+    timeline_id UUID NOT NULL,
 
-    CONSTRAINT fk_ua2_user
-        FOREIGN KEY (user_id) REFERENCES users(id),
+    accepted BOOLEAN NOT NULL DEFAULT FALSE,
 
-    CONSTRAINT fk_ua2_achievement
-        FOREIGN KEY (achievement_id) REFERENCES achievements(id)
+    CONSTRAINT fk_user_timeline_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+            ON DELETE CASCADE,
+
+    CONSTRAINT fk_user_timeline_timeline
+        FOREIGN KEY (timeline_id) REFERENCES timelines(id)
+            ON DELETE CASCADE,
+
+    CONSTRAINT uq_user_timeline
+        UNIQUE (user_id, timeline_id)
 );

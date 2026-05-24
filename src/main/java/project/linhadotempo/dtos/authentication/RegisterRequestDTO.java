@@ -2,15 +2,20 @@ package project.linhadotempo.dtos.authentication;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.linhadotempo.enums.UserAvatar;
 import project.linhadotempo.enums.UserGender;
+import project.linhadotempo.enums.UserType;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisterRequestDTO {
 
     @NotBlank(message = "Nome é obrigatório")
@@ -27,5 +32,8 @@ public class RegisterRequestDTO {
     @NotBlank(message = "Senha é obrigatória")
     private String password;
 
-    private UserAvatar avatar;
+    private String avatar;
+
+    @NotNull(message = "O campo de tipo de usuário é obrigatório")
+    private UserType userType;
 }

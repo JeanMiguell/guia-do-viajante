@@ -9,5 +9,6 @@ CREATE TABLE users (
     encrypted_password VARCHAR(255) NOT NULL,
     auth_provider VARCHAR(50),
     avatar VARCHAR(255),
+    user_type VARCHAR(20),
     additional_data_completed BOOLEAN DEFAULT FALSE
 );

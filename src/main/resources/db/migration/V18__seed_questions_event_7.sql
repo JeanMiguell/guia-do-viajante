@@ -198,3 +198,198 @@ FROM questions_cte q
         ('Qual mudança ocorreu com o novo regime?', 'Fim do governo', FALSE)
         ) AS data(statement, text, is_correct)
               ON data.statement = q.statement;
+
+WITH target_event AS (
+    SELECT he.id
+    FROM history_events he
+    WHERE he.name = 'Proclamação da República'
+    LIMIT 1
+    )
+
+INSERT INTO activities (
+    id,
+    created_date_at,
+    updated_date_at,
+    unit_id,
+    history_event_id,
+    type,
+    title,
+    minimum_score
+)
+SELECT
+    gen_random_uuid(),
+    NOW(),
+    NOW(),
+    NULL,
+    target_event.id,
+    'ASSESSMENT',
+    'Avaliação Final - Proclamação da República',
+    80
+FROM target_event;
+
+WITH target_activity AS (
+    SELECT a.id
+    FROM activities a
+             JOIN history_events he ON he.id = a.history_event_id
+    WHERE he.name = 'Proclamação da República'
+      AND a.type = 'ASSESSMENT'
+    ORDER BY a.created_date_at DESC
+    LIMIT 1
+    )
+
+INSERT INTO questions (
+    id,
+    created_date_at,
+    updated_date_at,
+    activity_id,
+    statement,
+    type
+)
+SELECT
+    gen_random_uuid(),
+    NOW(),
+    NOW(),
+    target_activity.id,
+    data.statement,
+    data.type
+FROM target_activity,
+     (
+         VALUES
+
+             -- FÁCIL (nível interpretativo)
+             ('Por que a monarquia começou a perder apoio no Brasil?', 'MULTIPLE_CHOICE'),
+             ('A monarquia mantinha apoio total de todos os grupos sociais.', 'TRUE_FALSE'),
+             ('Qual grupo teve papel importante na queda da monarquia?', 'MULTIPLE_CHOICE'),
+             ('A abolição da escravidão contribuiu para a crise da monarquia.', 'TRUE_FALSE'),
+             ('O que defendiam as ideias republicanas?', 'MULTIPLE_CHOICE'),
+
+             -- MÉDIO
+             ('Por que os militares apoiaram a República?', 'MULTIPLE_CHOICE'),
+             ('A Proclamação da República teve grande participação popular.', 'TRUE_FALSE'),
+             ('Quem liderou o movimento de 1889?', 'MULTIPLE_CHOICE'),
+             ('Qual foi uma consequência imediata da Proclamação?', 'MULTIPLE_CHOICE'),
+             ('Qual foi uma mudança política importante após 1889?', 'MULTIPLE_CHOICE'),
+
+             -- DIFÍCIL
+             ('Qual alternativa apresenta a sequência correta dos acontecimentos?', 'MULTIPLE_CHOICE'),
+             ('Qual contradição marcou o início da República?', 'MULTIPLE_CHOICE'),
+             ('A República garantiu participação política ampla desde o início.', 'TRUE_FALSE'),
+             ('Por que a mudança de regime não resolveu todos os problemas?', 'MULTIPLE_CHOICE'),
+             ('Qual foi um impacto duradouro da Proclamação da República?', 'MULTIPLE_CHOICE')
+
+     ) AS data(statement, type);
+
+WITH questions_cte AS (
+    SELECT q.id, q.statement, q.type
+    FROM questions q
+             JOIN activities a ON a.id = q.activity_id
+             JOIN history_events he ON he.id = a.history_event_id
+    WHERE he.name = 'Proclamação da República'
+      AND a.type = 'ASSESSMENT'
+)
+
+INSERT INTO answers (
+    id,
+    created_date_at,
+    updated_date_at,
+    question_id,
+    text,
+    is_correct
+)
+SELECT
+    gen_random_uuid(),
+    NOW(),
+    NOW(),
+    q.id,
+    data.text,
+    data.is_correct
+FROM questions_cte q
+         JOIN LATERAL (
+    VALUES
+
+-- FÁCIL
+
+('Por que a monarquia começou a perder apoio no Brasil?', 'Crises políticas e insatisfação de vários grupos', TRUE),
+('Por que a monarquia começou a perder apoio no Brasil?', 'Excesso de participação popular', FALSE),
+('Por que a monarquia começou a perder apoio no Brasil?', 'Ausência de conflitos', FALSE),
+('Por que a monarquia começou a perder apoio no Brasil?', 'Crescimento econômico total', FALSE),
+
+('Qual grupo teve papel importante na queda da monarquia?', 'Militares', TRUE),
+('Qual grupo teve papel importante na queda da monarquia?', 'Camponeses europeus', FALSE),
+('Qual grupo teve papel importante na queda da monarquia?', 'Navegadores portugueses', FALSE),
+('Qual grupo teve papel importante na queda da monarquia?', 'Indústrias estrangeiras', FALSE),
+
+('O que defendiam as ideias republicanas?', 'Fim da monarquia e governo com representantes', TRUE),
+('O que defendiam as ideias republicanas?', 'Retorno ao sistema colonial', FALSE),
+('O que defendiam as ideias republicanas?', 'Fim da política', FALSE),
+('O que defendiam as ideias republicanas?', 'Domínio estrangeiro', FALSE),
+
+-- MÉDIO
+
+('Por que os militares apoiaram a República?', 'Insatisfação com o governo monárquico', TRUE),
+('Por que os militares apoiaram a República?', 'Apoio total ao imperador', FALSE),
+('Por que os militares apoiaram a República?', 'Falta de organização', FALSE),
+('Por que os militares apoiaram a República?', 'Pressão religiosa', FALSE),
+
+('Quem liderou o movimento de 1889?', 'Deodoro da Fonseca', TRUE),
+('Quem liderou o movimento de 1889?', 'Dom Pedro II', FALSE),
+('Quem liderou o movimento de 1889?', 'Princesa Isabel', FALSE),
+('Quem liderou o movimento de 1889?', 'José Bonifácio', FALSE),
+
+('Qual foi uma consequência imediata da Proclamação?', 'Fim da monarquia', TRUE),
+('Qual foi uma consequência imediata da Proclamação?', 'Fim da escravidão', FALSE),
+('Qual foi uma consequência imediata da Proclamação?', 'Independência', FALSE),
+('Qual foi uma consequência imediata da Proclamação?', 'Domínio estrangeiro', FALSE),
+
+('Qual foi uma mudança política importante após 1889?', 'Criação da Constituição de 1891', TRUE),
+('Qual foi uma mudança política importante após 1889?', 'Retorno da monarquia', FALSE),
+('Qual foi uma mudança política importante após 1889?', 'Fim das eleições', FALSE),
+('Qual foi uma mudança política importante após 1889?', 'Centralização total do poder', FALSE),
+
+-- DIFÍCIL (SEQUÊNCIA)
+
+('Qual alternativa apresenta a sequência correta dos acontecimentos?',
+ 'Crise da monarquia → Crescimento republicano → Apoio militar → Proclamação → Nova Constituição', TRUE),
+
+('Qual alternativa apresenta a sequência correta dos acontecimentos?',
+ 'Proclamação → Crise → Constituição → Monarquia', FALSE),
+
+('Qual alternativa apresenta a sequência correta dos acontecimentos?',
+ 'Constituição → Monarquia → Crise → Proclamação', FALSE),
+
+('Qual alternativa apresenta a sequência correta dos acontecimentos?',
+ 'República → Monarquia → Crise → Constituição', FALSE),
+
+-- DIFÍCIL
+
+('Qual contradição marcou o início da República?', 'Mudança política sem ampla participação popular', TRUE),
+('Qual contradição marcou o início da República?', 'Igualdade total imediata', FALSE),
+('Qual contradição marcou o início da República?', 'Fim das elites', FALSE),
+('Qual contradição marcou o início da República?', 'Ausência de conflitos', FALSE),
+
+('Por que a mudança de regime não resolveu todos os problemas?', 'Desigualdades sociais e políticas continuaram', TRUE),
+('Por que a mudança de regime não resolveu todos os problemas?', 'Porque o país acabou', FALSE),
+('Por que a mudança de regime não resolveu todos os problemas?', 'Porque não houve mudanças', FALSE),
+('Por que a mudança de regime não resolveu todos os problemas?', 'Porque voltou à colônia', FALSE),
+
+('Qual foi um impacto duradouro da Proclamação da República?', 'Mudança na forma de governo e organização política', TRUE),
+('Qual foi um impacto duradouro da Proclamação da República?', 'Fim da economia', FALSE),
+('Qual foi um impacto duradouro da Proclamação da República?', 'Igualdade social total', FALSE),
+('Qual foi um impacto duradouro da Proclamação da República?', 'Ausência de política', FALSE),
+
+-- TRUE/FALSE
+
+('A monarquia mantinha apoio total de todos os grupos sociais.', 'Verdadeiro', FALSE),
+('A monarquia mantinha apoio total de todos os grupos sociais.', 'Falso', TRUE),
+
+('A abolição da escravidão contribuiu para a crise da monarquia.', 'Verdadeiro', TRUE),
+('A abolição da escravidão contribuiu para a crise da monarquia.', 'Falso', FALSE),
+
+('A Proclamação da República teve grande participação popular.', 'Verdadeiro', FALSE),
+('A Proclamação da República teve grande participação popular.', 'Falso', TRUE),
+
+('A República garantiu participação política ampla desde o início.', 'Verdadeiro', FALSE),
+('A República garantiu participação política ampla desde o início.', 'Falso', TRUE)
+
+        ) AS data(statement, text, is_correct)
+              ON data.statement = q.statement;

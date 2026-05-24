@@ -10,8 +10,12 @@ import project.linhadotempo.dtos.authentication.RegisterRequestDTO;
 import project.linhadotempo.enums.UserAuth;
 import project.linhadotempo.exceptions.ConflictException;
 import project.linhadotempo.exceptions.UnauthorizedException;
+import project.linhadotempo.models.Timeline;
 import project.linhadotempo.models.User;
+import project.linhadotempo.models.UserTimeline;
+import project.linhadotempo.repositories.TimelineRepository;
 import project.linhadotempo.repositories.UserRepository;
+import project.linhadotempo.repositories.UserTimelineRepository;
 import project.linhadotempo.security.JwtTokenProvider;
 
 @Service
@@ -21,6 +25,8 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final TimelineRepository timelineRepository;
+    private final UserTimelineRepository userTimelineRepository;
 
     public AuthResponseDTO login(LoginRequestDTO request) {
 
@@ -33,7 +39,7 @@ public class AuthenticationService {
 
         String token = jwtTokenProvider.generateToken(user);
 
-        return new AuthResponseDTO(token);
+        return new AuthResponseDTO(token, user.getAdditionalDataCompleted());
     }
 
     public GenericResponseDTO register(RegisterRequestDTO request) {
@@ -50,8 +56,18 @@ public class AuthenticationService {
         user.setGender(request.getGender());
         user.setBirthDate(request.getBirthDate());
         user.setAvatar(request.getAvatar());
+        user.setUserType(request.getUserType());
+        user.setAdditionalDataCompleted(true);
 
         userRepository.save(user);
+
+        timelineRepository.findByIsDefaultTrue().ifPresent(defaultTimeline -> {
+            UserTimeline userTimeline = new UserTimeline();
+            userTimeline.setUser(user);
+            userTimeline.setTimeline(defaultTimeline);
+            userTimeline.setAccepted(true);
+            userTimelineRepository.save(userTimeline);
+        });
 
         return new GenericResponseDTO("Usuário cadastrado com sucesso!", user.getId());
     }

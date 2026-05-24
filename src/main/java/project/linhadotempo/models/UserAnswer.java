@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ public class UserAnswer extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @ManyToOne
@@ -27,7 +30,7 @@ public class UserAnswer extends BaseEntity {
     private Question question;
 
     @ManyToOne
-    @JoinColumn(name = "answer_id", nullable = false)
+    @JoinColumn(name = "answer_id", nullable = true)
     private Answer answer;
 
     @Column

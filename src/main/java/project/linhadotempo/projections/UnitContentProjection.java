@@ -10,4 +10,5 @@ public interface UnitContentProjection {
     String getImageUrl();
     Integer getPageOrder();
     String getHint();
+    String getLayout();
 }

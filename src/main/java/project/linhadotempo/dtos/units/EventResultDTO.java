@@ -16,6 +16,7 @@ public class EventResultDTO {
 
     private UUID eventId;
     private String eventName;
+    private String imageUrl;
 
     private List<UnitResultDTO> units;
 

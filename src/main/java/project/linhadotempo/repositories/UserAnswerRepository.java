@@ -14,6 +14,10 @@ public interface UserAnswerRepository extends JpaRepository<UserAnswer, UUID> {
 
     Optional<UserAnswer> findByUserIdAndQuestionId(UUID userId, UUID questionId);
 
+    void deleteByQuestionActivityIdIn(List<UUID> activityIds);
+
+    void deleteByQuestionActivityHistoryEventIdIn(List<UUID> eventIds);
+
 @Query("""
     SELECT COUNT(ua)
     FROM UserAnswer ua

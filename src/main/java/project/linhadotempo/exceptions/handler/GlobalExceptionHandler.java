@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import project.linhadotempo.exceptions.ConflictException;
 import project.linhadotempo.exceptions.ExceptionResponse;
 import project.linhadotempo.exceptions.InvalidValueException;
+import project.linhadotempo.exceptions.NoContentException;
 import project.linhadotempo.exceptions.ResourceAlreadyExistsException;
 import project.linhadotempo.exceptions.ResourceNotFoundException;
 import project.linhadotempo.exceptions.UnauthorizedException;
@@ -58,6 +59,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidValueException.class)
     public ResponseEntity<?> handleInvalidValue(InvalidValueException ex) {
         return buildResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoContentException.class)
+    public ResponseEntity<?> handleNoContent(NoContentException ex) {
+        return buildResponse(ex.getMessage(), HttpStatus.NO_CONTENT);
     }
 
     @Override

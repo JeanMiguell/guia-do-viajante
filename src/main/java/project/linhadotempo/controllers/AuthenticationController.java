@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.linhadotempo.dtos.GenericResponseDTO;
 import project.linhadotempo.dtos.authentication.AuthResponseDTO;
+import project.linhadotempo.dtos.authentication.GoogleAuthRequestDTO;
 import project.linhadotempo.dtos.authentication.LoginRequestDTO;
 import project.linhadotempo.dtos.authentication.RegisterRequestDTO;
 import project.linhadotempo.services.AuthenticationService;
+import project.linhadotempo.services.GoogleAuthService;
 
 @RestController
 @RequestMapping("api/auth")
@@ -23,6 +25,7 @@ import project.linhadotempo.services.AuthenticationService;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
+    private final GoogleAuthService googleAuthService;
 
     @PostMapping("/login")
     @Operation(
@@ -36,6 +39,19 @@ public class AuthenticationController {
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginRequestDTO request) {
         AuthResponseDTO response = authenticationService.login(request);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/login/google")
+    @Operation(
+            summary = "Login com Google",
+            description = "Autentica ou registra um usuário via Google ID Token e retorna um JWT"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Autenticado com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Token do Google inválido")
+    })
+    public ResponseEntity<AuthResponseDTO> loginWithGoogle(@RequestBody GoogleAuthRequestDTO request) {
+        return ResponseEntity.ok(googleAuthService.authenticate(request.getIdToken(), request.getUserType()));
     }
 
     @PostMapping("/register")

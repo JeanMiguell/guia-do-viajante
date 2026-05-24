@@ -28,4 +28,7 @@ public class UnitContentDTO {
     private Integer pageOrder;
 
     private String hint;
+
+    @Schema(example = "TEXT_LEFT", allowableValues = {"TEXT_LEFT", "TEXT_RIGHT", "TEXT_ONLY", "IMAGE_ONLY"})
+    private String layout;
 }

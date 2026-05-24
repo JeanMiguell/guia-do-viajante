@@ -41,6 +41,11 @@ public class UserUnitProgressService {
         return repository.isEventCompleted(userId, eventId);
     }
 
+    public void deleteProgressForUnits(List<Unit> units) {
+        if (units == null || units.isEmpty()) return;
+        repository.deleteByUnitIn(units);
+    }
+
     public Map<UUID, UserUnitProgress> getProgressMapByEvent(UUID userId, UUID eventId) {
 
         List<UserUnitProgress> progressList =

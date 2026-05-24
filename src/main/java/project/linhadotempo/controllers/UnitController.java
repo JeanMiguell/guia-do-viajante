@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.linhadotempo.dtos.units.UnitContentDTO;
 import project.linhadotempo.dtos.units.UnitDTO;
+import project.linhadotempo.dtos.units.UnitSimpleDTO;
 import project.linhadotempo.services.UnitContentService;
 import project.linhadotempo.services.UnitService;
 
@@ -27,6 +28,20 @@ public class UnitController {
 
     private final UnitService unitService;
     private final UnitContentService unitContentService;
+
+    @Operation(summary = "Listar unidades de uma linha do tempo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Unidades retornadas com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Linha do tempo não encontrada")
+    })
+    @GetMapping("/timeline/{timelineId}")
+    public ResponseEntity<List<UnitSimpleDTO>> getUnitsByTimeline(
+            @PathVariable UUID timelineId
+    ) {
+        return ResponseEntity.ok(
+                unitService.findAllByTimelineId(timelineId)
+        );
+    }
 
     @Operation(
             summary = "Buscar unidades por evento",

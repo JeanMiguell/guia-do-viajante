@@ -2,6 +2,7 @@ package project.linhadotempo.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import project.linhadotempo.models.Unit;
 import project.linhadotempo.models.UserUnitProgress;
 
 import java.util.List;
@@ -29,4 +30,20 @@ public interface UserUnitProgressRepository extends JpaRepository<UserUnitProgre
     AND p.unit.historyEvent.id = :eventId
 """)
     List<UserUnitProgress> findByUserIdAndUnitEventId(UUID userId, UUID eventId);
+
+    void deleteByUnitIn(List<Unit> units);
+
+    @Query("""
+        SELECT COUNT(p) FROM UserUnitProgress p
+        WHERE p.user.id = :userId
+        AND p.unit.historyEvent.timeline.id = :timelineId
+        AND p.completed = true
+    """)
+    long countCompletedByUserAndTimeline(UUID userId, UUID timelineId);
+
+    @Query("""
+        SELECT COUNT(u) FROM Unit u
+        WHERE u.historyEvent.timeline.id = :timelineId
+    """)
+    long countTotalUnitsByTimeline(UUID timelineId);
 }

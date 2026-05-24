@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.linhadotempo.enums.UserGender;
+import project.linhadotempo.enums.UserType;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -19,5 +20,7 @@ public class UserDTO {
     private LocalDate birthdate;
     private String avatar;
     private UserGender gender;
+    private UserType userType;
+    private Boolean additionalDataCompleted;
 
 }

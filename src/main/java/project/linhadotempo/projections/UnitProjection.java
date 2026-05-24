@@ -9,5 +9,4 @@ public interface UnitProjection {
     String getTitle();
     String getDescription();
     Integer getOrderIndex();
-    boolean getUnlocked();
 }

@@ -17,4 +17,6 @@ public class ActivityDTO {
     private String title;
     private String type;
     private List<QuestionDTO> questions;
+    private boolean alreadyCompleted;
+    private ActivityResultResponseDTO previousResult;
 }

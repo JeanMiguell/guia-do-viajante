@@ -1,4 +1,4 @@
-package project.linhadotempo.dtos;
+package project.linhadotempo.dtos.events;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,8 @@ import java.util.UUID;
 public class HistoryEventDTO {
 
     private UUID id;
+
+    private UUID userId;
 
     private String name;
 

@@ -17,5 +17,7 @@ public class AnswerResponseDTO {
 
     private UUID correctAlternativeId;
 
+    private String correctAnswerText;
+
     private List<String> unlockedAchievements;
 }

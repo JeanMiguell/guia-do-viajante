@@ -1,7 +1,7 @@
 package project.linhadotempo.projections;
 
-import project.linhadotempo.enums.UserAvatar;
 import project.linhadotempo.enums.UserGender;
+import project.linhadotempo.enums.UserType;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -12,7 +12,9 @@ public interface UserProjection {
     String getName();
     String getEmail();
     LocalDate getBirthdate();
-    UserAvatar getAvatar();
+    String getAvatar();
     UserGender getGender();
+    UserType getType();
+    Boolean getAdditionalDataCompleted();
 
 }
