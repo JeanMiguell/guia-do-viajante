@@ -77,15 +77,24 @@ CREATE DATABASE linha_tempo_db;
 
 ### 3. Configure as variáveis de ambiente
 
-Crie um arquivo `.env` na raiz do projeto:
+Copie o `.env.example` para `.env` na raiz do projeto e ajuste os valores:
+
+```bash
+cp .env.example .env
+```
 
 ```env
 # JWT
 JWT_SECRET=seu_secret_aqui_minimo_256_bits
 
 # Banco de dados
-DB_URL=jdbc:postgresql://localhost:5432/linha_tempo_db
-DB_USERNAME=seu_usuario
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/linha_tempo_db
+SPRING_DATASOURCE_USERNAME=seu_usuario
+SPRING_DATASOURCE_PASSWORD=sua_senha
+
+# Usados apenas pelo docker-compose para subir o Postgres local
+DB_NAME=linha_tempo_db
+DB_USER=seu_usuario
 DB_PASSWORD=sua_senha
 DB_PORT=5432
 
@@ -105,6 +114,12 @@ SPRING_SERVER_PORT=8080
 
 ```bash
 ./mvnw spring-boot:run
+```
+
+Ou via Docker Compose (sobe o Postgres local automaticamente):
+
+```bash
+docker compose up --build
 ```
 
 O Flyway roda as migrações automaticamente e o servidor sobe em `http://localhost:8080`.
