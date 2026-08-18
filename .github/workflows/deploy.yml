@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, viajante]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build and restart containers
+        working-directory: ${{ github.workspace }}
+        run: |
+          cp /home/nexus/viajante/.env .env
+          docker compose -f docker-compose.prod.yml up -d --build
+
+      - name: Wait for API to come up
+        run: |
+          for i in $(seq 1 30); do
+            if docker exec viajante-api-prod wget -q --spider http://localhost:8080/v3/api-docs; then
+              echo "API is up"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "API did not become healthy in time"
+          docker logs viajante-api-prod --tail 100
+          exit 1
