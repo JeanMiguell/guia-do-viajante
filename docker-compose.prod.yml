@@ -7,7 +7,7 @@ networks:
     external: true
 
 services:
-  db:
+  db-viajante:
     image: postgres:15
     container_name: viajante-db-prod
     restart: unless-stopped
@@ -32,7 +32,7 @@ services:
     container_name: viajante-api-prod
     restart: unless-stopped
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-viajante:5432/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
@@ -44,7 +44,7 @@ services:
       CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     depends_on:
-      db:
+      db-viajante:
         condition: service_healthy
     networks:
       - viajante-network
